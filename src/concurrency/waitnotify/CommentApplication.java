@@ -21,30 +21,12 @@ public class CommentApplication {
         };
 
 
-        Thread counterThread = new Thread() {
-            @Override
-            public void run() {
-
-                System.out.println("looks we have " + counter.fastCount() + " comments");
-
-
-
-            }
-        };
-
-        writerThread.start();
-        counterThread.start();
-
-    }
-}
-
-
-/*
- Thread counterThread = new Thread(){
+        Thread counterThread = new Thread(){
             @Override
             public void run() {
                 System.out.println("Starting counterThread");
                 try {
+                	sleep(15);
                     synchronized (writer){
                         System.out.println("Counter waits gently()");
                         writer.wait();
@@ -57,6 +39,17 @@ public class CommentApplication {
 
             }
         };
+
+        writerThread.start();
+        counterThread.setPriority(Thread.MIN_PRIORITY);
+        counterThread.start();
+
+    }
+}
+
+
+/*
+
 
 ==>>> Add notify() in CommentWriter.slowlyWriteComment()
 */

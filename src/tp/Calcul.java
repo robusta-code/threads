@@ -37,7 +37,7 @@ public class Calcul {
         resultB=0;
         Thread t1 = new Thread(){
 
-            //somme de 0 Ã  a : 1+2+3+...+a
+            //somme de 0 a  a : 1+2+3+...+a
             public void run(){
 
             }
@@ -172,7 +172,7 @@ public class Calcul {
 
     public int future(int a, int b) throws ExecutionException, InterruptedException {
 
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
 
         CallableCalcul ca = new CallableCalcul(a);
         CallableCalcul cb = new CallableCalcul(a);

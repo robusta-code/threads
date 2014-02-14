@@ -21,7 +21,7 @@ public class CommentWriter {
         try {
 
             synchronized (this){
-            sleep(time);
+            
 
                 System.out.println("Writing database in "+time+ "ms");
                 CommentDataSource.comments.add(new Comment(content));

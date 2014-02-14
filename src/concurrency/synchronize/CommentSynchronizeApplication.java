@@ -13,6 +13,7 @@ public class CommentSynchronizeApplication {
         final CommentWriter writer = new CommentWriter();
 
         final CommentCounter counter = new CommentCounter();
+        
 
         Thread writerThread = new Thread() {
             @Override
@@ -29,6 +30,11 @@ public class CommentSynchronizeApplication {
             @Override
             public void run() {
 
+                System.out.println("Starting counterThread");
+                System.out.println("Starting counterThread");
+                System.out.println("Starting counterThread");
+                System.out.println("Starting counterThread");
+                System.out.println("Starting counterThread");
                 System.out.println("Starting counterThread");
                 synchronized (lock){
                     System.out.println("counter got the lock");

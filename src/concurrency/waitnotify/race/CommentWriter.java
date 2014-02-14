@@ -15,16 +15,19 @@ import static java.lang.Thread.sleep;
 public class CommentWriter {
 
 
+	public boolean started =false;
     public void slowlyWriteComment(String content) {
 
 
+    	
         try {
 
             int time =new Random().nextInt(1000);
             synchronized (this){
+            	started = true;
                 System.out.println("Writing database in "+time+ "ms");
                 CommentDataSource.comments.add(new Comment(content));
-                notify();
+                notifyAll();
             }
 
 

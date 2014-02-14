@@ -35,8 +35,11 @@ public class CommentApplicationRaceProblem {
                 System.out.println("Starting counterThread");
                 try {
                     synchronized (writer){
-                        System.out.println("Counter waits gently()");
-                        writer.wait();
+                        
+                        if (!writer.started){
+                        	System.out.println("Counter waits gently()");
+                        	writer.wait();
+                        }                        
                         System.out.println("we have " + counter.fastCount() + " comments");
                     }
 
