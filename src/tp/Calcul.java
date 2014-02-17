@@ -110,7 +110,7 @@ public class Calcul {
 
         // but a condition
         synchronized (lock){
-            while (resultA== 0 && resultB ==0){
+            while ( resultA== 0 || resultB ==0){
                 lock.wait();
             }
         }
