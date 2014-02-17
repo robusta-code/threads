@@ -29,7 +29,9 @@ public class CalculTestTest {
 
         long time = System.currentTimeMillis();
 
-        assertTrue(calcul.halfSuiteWithWait(a, b)==10);
+        int res = calcul.halfSuiteWithWait(a, b);
+        System.out.println("res is : "+res);
+        assertTrue(res==10);
 
         long duration = System.currentTimeMillis()-time;
         assertTrue(duration < 100);

@@ -28,7 +28,14 @@ public class CallableCalcul implements Callable<Integer>{
 
     @Override
     public Integer call() throws Exception {
-        //calcul
-        return null;  //TODO : auto generated
+    	int res = 0;
+    	//somme de 0 Ã  b : 1+2+3+...+b
+    	for (int i = 1; i <= max; i++) {
+			res += i;
+			System.out.println("rang : "+i+" de "+Thread.currentThread().getId());
+		}
+    	
+    	return res;
+    	
     }
 }

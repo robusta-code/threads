@@ -52,69 +52,100 @@ public class Calcul {
 
         t1.start();
         t2.start();
+        
         t1.join();
         t2.join();
+        
         return (resultA+resultB)/2;
     }
 
     public int halfSuiteWithWait(final int a, final int b) throws InterruptedException {
-
-
+    	 
         resultA=0;
         resultB=0;
-
+ 
         final Object lock = new Object();
-
+ 
         Thread t1 = new Thread(){
-
-
+ 
             public void run(){
-
-
-                //somme de 0 Ã  a : 1+2+3+...+a
-
+            	int res = 0;
+                //somme de 0 Ã  a : 1+2+3+...+a
+            	for (int i = 1; i <= a; i++) {
+					res += i;
+					System.out.println("rang : "+i+" de A");
+				}
+            	resultA = res;
+                 	
+            	System.out.println("Finished result A : "+resultA);
                 synchronized (lock){
-
                     if (resultB>0){
-                        //wait or notify ?
+                    	System.out.println("resultB >0 : B has already finished");
+                    	
                     }else{
-                        //wait or notify ?
+                    	System.out.println("resultB=0 not finished : waiting");
+                    	try {
+							lock.wait();
+							System.out.println("ended wait for B");
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						};
                     }
+                    lock.notifyAll();
                 }
-
+ 
                 Task task = new Task("Tweeting for A");
             }
         };
-
-        ////somme de 0 Ã  b : 1+2+3+...+b
+ 
+        ////somme de 0 Ã  b : 1+2+3+...+b
         Thread t2 = new Thread(){
             public void run(){
-                //somme de 0 Ã  b : 1+2+3+...+b
-
+            	int res = 0;
+            	//somme de 0 Ã  b : 1+2+3+...+b
+            	for (int i = 1; i <= b; i++) {
+					res += i;
+					System.out.println("rang : "+i+" de B");
+				}
+            	resultB = res;
+            	System.out.println("Finished result B : "+resultB);
+            	
                 synchronized (lock){
-
-                    if (resultA>0){
-                        //wait or notify ?
-                    }else{
-                        //wait or notify ?
-                    }
+                	 if (resultA>0){
+                     	System.out.println("resultA >0 : A has already finished");
+                     	
+                     }else{
+                     	System.out.println("resultA=0 not finished : waiting");
+                     	try {
+ 							lock.wait();
+ 							System.out.println("ended wait for A");
+ 						} catch (InterruptedException e) {
+ 							// TODO Auto-generated catch block
+ 							e.printStackTrace();
+ 						};
+                     }
+                    lock.notifyAll();
                 }
-
+ 
                 Task task = new Task("Tweeting for B");
             }
         };
-
+ 
         t1.start();
         t2.start();
         //no join here ! Don't want to wait the end of tweets
-
+ 
         // but a condition
+        System.out.println("entering lock in main program");
         synchronized (lock){
-            while (resultA== 0 && resultB ==0){
+            while ( (resultA==0)  || (resultB ==0) ){
+            	System.out.println("main thread still have to wait");
                 lock.wait();
             }
         }
-
+ 
+        System.out.println(resultA+" + "+resultB+"/2 = "+Integer.valueOf((resultA+resultB)/2));
         return (resultA+resultB)/2;
     }
 
@@ -175,17 +206,16 @@ public class Calcul {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
 
         CallableCalcul ca = new CallableCalcul(a);
-        CallableCalcul cb = new CallableCalcul(a);
+        CallableCalcul cb = new CallableCalcul(b);
 
         Future<Integer> fA = executorService.submit(ca);
+        Future<Integer> fB = executorService.submit(cb);
         // stuff with B
 
         int resultA = fA.get();
-
-        // stuff with B
-
-        //bad result
-        return 0;
+        int resultB = fB.get();
+        
+        return (resultA+resultB)/2;
 
 
     }
